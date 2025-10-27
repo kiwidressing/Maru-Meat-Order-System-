@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ì¹´ì¹´ì˜¤í†¡ìš© ì§§ì€ ë°œì£¼ë¬¸</title>
+<style>
+  * { box-sizing: border-box; }
+  body { 
+    font-family: system-ui, -apple-system, "Noto Sans KR", sans-serif; 
+    line-height: 1.5; 
+    padding: 12px; 
+    margin: 0;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  h1 { 
+    font-size: 1.2rem; 
+    margin: 0 0 8px;
+    font-weight: 700;
+  }
+  .subtitle {
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 16px;
+  }
+  
+  .card {
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 10px;
+    background: #fff;
+  }
+  
+  .item-header {
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .field.full {
+    grid-column: 1 / -1;
+  }
+  
+  label { 
+    font-size: 0.8rem;
+    color: #555;
+    font-weight: 500;
+  }
+  label .en {
+    font-size: 0.75rem;
+    color: #999;
+    font-weight: 400;
+  }
+  
+  input, select, textarea { 
+    border: 1px solid #ccc; 
+    border-radius: 6px; 
+    padding: 10px; 
+    font-size: 0.95rem;
+    width: 100%;
+  }
+  input[type="number"] {
+    text-align: right;
+  }
+  textarea {
+    white-space: pre-wrap;
+    font-family: monospace;
+    resize: vertical;
+  }
+  
+  button { 
+    background: #111; 
+    color: #fff; 
+    border: none; 
+    border-radius: 8px; 
+    padding: 12px 16px; 
+    font-weight: 600;
+    font-size: 0.9rem;
+    width: 100%;
+    cursor: pointer;
+  }
+  button:active { opacity: 0.8; }
+  button.secondary { background: #666; }
+  button.danger { background: #d32f2f; }
+  button.success { background: #4CAF50; }
+  
+  .actions { 
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px; 
+    margin: 14px 0;
+  }
+  .actions button.full {
+    grid-column: 1 / -1;
+  }
+  
+  .save-btn {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .save-btn.saved {
+    background: #388E3C;
+  }
+  
+  .delete-btn {
+    background: #f44336;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 0.8rem;
+    cursor: pointer;
+  }
+  
+  .editing-card {
+    background: #fff9e6;
+    border-color: #ffc107;
+  }
+  
+  .info-box {
+    background: #e3f2fd;
+    border: 1px solid #90caf9;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 12px;
+    font-size: 0.85rem;
+  }
+  
+  .section-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 20px 0 10px;
+  }
+  .section-title .en {
+    font-size: 0.85rem;
+    color: #666;
+    font-weight: 400;
+  }
+  
+  .need-badge {
+    display: inline-block;
+    background: #fff3cd;
+    color: #856404;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+  .need-badge.zero {
+    background: #d4edda;
+    color: #155724;
+  }
+  
+  .divider {
+    height: 2px;
+    background: linear-gradient(to right, #e0e0e0, #bdbdbd, #e0e0e0);
+    margin: 24px 0;
+  }
+</style>
+</head>
+
+<body>
+<h1>ðŸ“¦ ì¹´ì¹´ì˜¤í†¡ìš© ì§§ì€ ë°œì£¼ë¬¸ <span style="font-weight:400;font-size:0.9rem">(Quick Order)</span></h1>
+<p class="subtitle">í’ˆëª© ì •ë³´ë¥¼ ìˆ˜ì •í•˜ê³  ì €ìž¥í•œ í›„, í˜„ìž¬ìˆ˜ëŸ‰ì„ ìž…ë ¥í•˜ë©´ ë°œì£¼ë¬¸ì´ ìžë™ ìƒì„±ë©ë‹ˆë‹¤.</p>
+
+<div class="info-box">
+  ðŸ’¡ <strong>ì‚¬ìš© ë°©ë²•:</strong><br>
+  1. í’ˆëª© ì •ë³´ ìˆ˜ì • í›„ "ðŸ’¾ ì €ìž¥" ë²„íŠ¼ í´ë¦­<br>
+  2. í˜„ìž¬ ìˆ˜ëŸ‰ ìž…ë ¥<br>
+  3. í•˜ë‹¨ì—ì„œ "ðŸ“‹ ë°œì£¼ë¬¸ ìƒì„±" í´ë¦­<br>
+  4. "ðŸ“‹ ë³µì‚¬" ë²„íŠ¼ìœ¼ë¡œ ì¹´ì¹´ì˜¤í†¡ì— ë¶™ì—¬ë„£ê¸°
+</div>
+
+<div id="list"></div>
+
+<div class="actions">
+  <button id="addBtn" class="success full">âž• ìƒˆ í’ˆëª© ì¶”ê°€ <span style="font-weight:400">(Add New Item)</span></button>
+  <button id="exportBtn" class="secondary">ðŸ’¾ JSON ë‚´ë³´ë‚´ê¸°</button>
+  <button id="importBtn" class="secondary">ðŸ“‚ JSON ê°€ì ¸ì˜¤ê¸°</button>
+  <input id="importFile" type="file" accept="application/json" style="display:none" />
+</div>
+
+<div class="divider"></div>
+
+<div class="section-title">ðŸ“‹ ë°œì£¼ë¬¸ ìƒì„± <span class="en">(Order Generator)</span></div>
+
+<div class="actions">
+  <button id="genBtn">ðŸ“‹ ë°œì£¼ë¬¸ ìƒì„± <span style="font-weight:400">(Generate)</span></button>
+  <button id="copyBtn" class="secondary">ðŸ“‹ ë³µì‚¬ <span style="font-weight:400">(Copy)</span></button>
+  <button id="resetBtn" class="secondary full">ðŸ”„ í˜„ìž¬ìˆ˜ëŸ‰ ì´ˆê¸°í™” <span style="font-weight:400">(Reset Current)</span></button>
+</div>
+
+<div class="section-title">ë°œì£¼ë¬¸ ë¯¸ë¦¬ë³´ê¸° <span class="en">(Preview)</span></div>
+<textarea id="output" rows="12" placeholder="'ðŸ“‹ ë°œì£¼ë¬¸ ìƒì„±' ë²„íŠ¼ì„ ëˆŒëŸ¬ì£¼ì„¸ìš”."></textarea>
+
+<script>
+const STORAGE_KEY = 'orderApp.v1';
+
+// LocalStorageì—ì„œ ë¶ˆëŸ¬ì˜¤ê¸°
+function loadData() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return parsed.map(item => ({
+          id: item.id || crypto.randomUUID(),
+          kor: item.kor || '',
+          eng: item.eng || '',
+          unit: item.unit || 'kg',
+          target: Number(item.target) || 0,
+          min: Number(item.min) || 1,
+          current: Number(item.current) || 0,
+          note: item.note || ''
+        }));
+      }
+    }
+  } catch (e) {
+    console.error('Failed to load data:', e);
+  }
+  
+  // ê¸°ë³¸ ë°ì´í„°
+  return [
+    { id: crypto.randomUUID(), kor:'ì˜¤ê²¹ì‚´', eng:'Pork Belly', unit:'íŒ©', target:5, min:1, current:0, note:'(Free Range)' },
+    { id: crypto.randomUUID(), kor:'ëª©ì‚´', eng:'Pork Slice', unit:'kg', target:15, min:1, current:0, note:'' },
+    { id: crypto.randomUUID(), kor:'í•­ì •ì‚´', eng:'Pork Jowel', unit:'kg', target:3, min:1, current:0, note:'' },
+    { id: crypto.randomUUID(), kor:'ë¶ˆê³ ê¸°', eng:'Beef Slice', unit:'kg', target:24, min:1, current:0, note:'(Half Cut)' },
+    { id: crypto.randomUUID(), kor:'ê°ˆë¹„íƒ•ìš© ì†Œê°ˆë¹„', eng:'Beef Ribs (Soup)', unit:'kg', target:15, min:1, current:0, note:'' },
+    { id: crypto.randomUUID(), kor:'ì†Œë¼ˆ', eng:'Beef Bone', unit:'bag', target:1, min:1, current:0, note:'(3kg/1bag)' },
+    { id: crypto.randomUUID(), kor:'ì†Œê°ˆë¹„', eng:'Beef Ribs (Cut Type)', unit:'pack', target:1, min:1, current:0, note:'' },
+    { id: crypto.randomUUID(), kor:'ìš°ì‚¼ê²¹', eng:'Thin Sliced Beef Brisket', unit:'box', target:1, min:1, current:0, note:'' },
+    { id: crypto.randomUUID(), kor:'ëª©ì‚´ ìŠ¬ë¼ì´ìŠ¤', eng:'Boston Butt 1.5cm Cut', unit:'kg', target:10, min:5, current:0, note:'' },
+  ];
+}
+
+let items = loadData();
+let editingItems = new Set(); // íŽ¸ì§‘ ì¤‘ì¸ í•­ëª© ì¶”ì 
+
+// LocalStorageì— ì €ìž¥
+function saveData() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+  } catch (e) {
+    console.error('Failed to save data:', e);
+    alert('âŒ ì €ìž¥ ì‹¤íŒ¨!');
+  }
+}
+
+function ceilToMultiple(x, m) {
+  return Math.max(0, Math.ceil(x / m) * m);
+}
+
+function render() {
+  const root = document.getElementById('list');
+  root.innerHTML = '';
+  
+  if (items.length === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'card';
+    empty.innerHTML = '<p style="margin:0;color:#999;text-align:center;">í’ˆëª©ì´ ì—†ìŠµë‹ˆë‹¤. "âž• ìƒˆ í’ˆëª© ì¶”ê°€"ë¥¼ ëˆŒëŸ¬ì£¼ì„¸ìš”.</p>';
+    root.appendChild(empty);
+    return;
+  }
+  
+  items.forEach((it, i) => {
+    const need = Math.max(0, it.target - it.current);
+    const el = document.createElement('div');
+    el.className = editingItems.has(it.id) ? 'card editing-card' : 'card';
+    el.dataset.id = it.id;
+    
+    const displayName = `${it.kor} (${it.eng})`;
+    
+    el.innerHTML = `
+      <div class="item-header">
+        <div>${i + 1}. ${displayName}</div>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <span class="need-badge ${need === 0 ? 'zero' : ''}">í•„ìš”: ${need}${it.unit}</span>
+          <button class="save-btn" data-id="${it.id}">ðŸ’¾ ì €ìž¥</button>
+          <button class="delete-btn" data-id="${it.id}">ðŸ—‘ï¸</button>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="field">
+          <label>í•œê¸€ëª… <span class="en">(Korean)</span></label>
+          <input type="text" value="${it.kor}" data-k="kor" data-id="${it.id}" placeholder="ì˜ˆ: ì˜¤ê²¹ì‚´">
+        </div>
+        <div class="field">
+          <label>ì˜ë¬¸ëª… <span class="en">(English)</span></label>
+          <input type="text" value="${it.eng}" data-k="eng" data-id="${it.id}" placeholder="ì˜ˆ: Pork Belly">
+        </div>
+        <div class="field">
+          <label>ëª©í‘œ ìž¬ê³  <span class="en">(Target)</span></label>
+          <input type="number" value="${it.target}" min="0" data-k="target" data-id="${it.id}">
+        </div>
+        <div class="field">
+          <label>ìµœì†Œ ë°œì£¼ ë‹¨ìœ„ <span class="en">(Min Order)</span></label>
+          <input type="number" value="${it.min}" min="1" data-k="min" data-id="${it.id}">
+        </div>
+        <div class="field">
+          <label>ë‹¨ìœ„ <span class="en">(Unit)</span></label>
+          <input type="text" value="${it.unit}" data-k="unit" data-id="${it.id}" placeholder="kg, íŒ©, box...">
+        </div>
+        <div class="field">
+          <label>í˜„ìž¬ ìˆ˜ëŸ‰ <span class="en">(Current)</span></label>
+          <input type="number" value="${it.current}" min="0" data-k="current" data-id="${it.id}">
+        </div>
+        <div class="field full">
+          <label>ë©”ëª¨ <span class="en">(Note)</span></label>
+          <input type="text" value="${it.note}" placeholder="ì˜ˆ: (Free Range)" data-k="note" data-id="${it.id}">
+        </div>
+      </div>
+    `;
+    
+    // ìž…ë ¥ ì´ë²¤íŠ¸ - íŽ¸ì§‘ ì¤‘ í‘œì‹œ
+    el.querySelectorAll('input[data-k]').forEach(inp => {
+      inp.addEventListener('input', () => {
+        const itemId = inp.dataset.id;
+        const item = items.find(x => x.id === itemId);
+        if (!item) return;
+        
+        // ê°’ ìž„ì‹œ ì—…ë°ì´íŠ¸ (í•„ìš”ìˆ˜ëŸ‰ ì‹¤ì‹œê°„ ê³„ì‚°ìš©)
+        if (inp.type === 'number') {
+          item[inp.dataset.k] = Number(inp.value) || 0;
+        } else {
+          item[inp.dataset.k] = inp.value;
+        }
+        
+        // í•„ìš”ìˆ˜ëŸ‰ ì‹¤ì‹œê°„ ì—…ë°ì´íŠ¸
+        if (inp.dataset.k === 'target' || inp.dataset.k === 'current') {
+          const need = Math.max(0, item.target - item.current);
+          const badge = el.querySelector('.need-badge');
+          badge.textContent = `í•„ìš”: ${need}${item.unit}`;
+          badge.className = need === 0 ? 'need-badge zero' : 'need-badge';
+        }
+        
+        // íŽ¸ì§‘ ì¤‘ í‘œì‹œ
+        if (inp.dataset.k !== 'current') {
+          editingItems.add(itemId);
+          const card = el;
+          card.className = 'card editing-card';
+          const saveBtn = card.querySelector('.save-btn');
+          saveBtn.style.background = '#FF9800';
+          saveBtn.textContent = 'ðŸ’¾ ì €ìž¥ í•„ìš”';
+        }
+      });
+    });
+    
+    // ì €ìž¥ ë²„íŠ¼
+    el.querySelector('.save-btn').addEventListener('click', (e) => {
+      const itemId = e.target.dataset.id;
+      const item = items.find(x => x.id === itemId);
+      if (!item) return;
+      
+      // ìž…ë ¥ê°’ ìˆ˜ì§‘
+      const card = el;
+      const inputs = card.querySelectorAll('input[data-k]');
+      inputs.forEach(inp => {
+        if (inp.type === 'number') {
+          item[inp.dataset.k] = Number(inp.value) || 0;
+        } else {
+          item[inp.dataset.k] = inp.value;
+        }
+      });
+      
+      // ì €ìž¥
+      saveData();
+      editingItems.delete(itemId);
+      
+      // í”¼ë“œë°±
+      e.target.textContent = 'âœ… ì €ìž¥ì™„ë£Œ';
+      e.target.className = 'save-btn saved';
+      card.className = 'card';
+      
+      setTimeout(() => {
+        e.target.textContent = 'ðŸ’¾ ì €ìž¥';
+        e.target.className = 'save-btn';
+      }, 1500);
+      
+      // í—¤ë” ì´ë¦„ ì—…ë°ì´íŠ¸
+      const header = card.querySelector('.item-header > div:first-child');
+      const idx = items.findIndex(x => x.id === itemId);
+      header.textContent = `${idx + 1}. ${item.kor} (${item.eng})`;
+    });
+    
+    // ì‚­ì œ ë²„íŠ¼
+    el.querySelector('.delete-btn').addEventListener('click', () => {
+      if (confirm(`"${it.kor} (${it.eng})"ì„(ë¥¼) ì‚­ì œí•˜ì‹œê² ìŠµë‹ˆê¹Œ?`)) {
+        items = items.filter(x => x.id !== it.id);
+        editingItems.delete(it.id);
+        saveData();
+        render();
+      }
+    });
+    
+    root.appendChild(el);
+  });
+}
+
+// ìƒˆ í’ˆëª© ì¶”ê°€
+document.getElementById('addBtn').onclick = () => {
+  const newItem = {
+    id: crypto.randomUUID(),
+    kor: 'ìƒˆ í’ˆëª©',
+    eng: 'New Item',
+    unit: 'kg',
+    target: 0,
+    min: 1,
+    current: 0,
+    note: ''
+  };
+  items.push(newItem);
+  editingItems.add(newItem.id);
+  saveData();
+  render();
+  window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+};
+
+// ë°œì£¼ë¬¸ ìƒì„±
+document.getElementById('genBtn').onclick = () => {
+  let result = `Order for tomorrow\n\n`;
+  let hasItems = false;
+  
+  items.forEach(it => {
+    const need = it.target - it.current;
+    if (need > 0) {
+      const order = ceilToMultiple(need, it.min);
+      const itemName = `${it.kor} (${it.eng})`;
+      result += `- ${itemName} ${order}${it.unit} ${it.note}\n`;
+      hasItems = true;
+    }
+  });
+  
+  if (!hasItems) {
+    result += `(ë°œì£¼í•  í•­ëª© ì—†ìŒ)\n`;
+  }
+  
+  result += `\nê°ì‚¬í•©ë‹ˆë‹¤.`;
+  document.getElementById('output').value = result.trim();
+};
+
+// ë³µì‚¬
+document.getElementById('copyBtn').onclick = async () => {
+  const text = document.getElementById('output').value;
+  if (!text) {
+    alert('ë¨¼ì € ë°œì£¼ë¬¸ì„ ìƒì„±í•´ì£¼ì„¸ìš”.');
+    return;
+  }
+  try {
+    await navigator.clipboard.writeText(text);
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = 'âœ… ë³µì‚¬ì™„ë£Œ!';
+    setTimeout(() => btn.textContent = 'ðŸ“‹ ë³µì‚¬ (Copy)', 1500);
+  } catch (e) {
+    alert('ë³µì‚¬ ì‹¤íŒ¨. í…ìŠ¤íŠ¸ë¥¼ ì§ì ‘ ì„ íƒí•´ì„œ ë³µì‚¬í•´ì£¼ì„¸ìš”.');
+  }
+};
+
+// í˜„ìž¬ìˆ˜ëŸ‰ ì´ˆê¸°í™”
+document.getElementById('resetBtn').onclick = () => {
+  if (confirm('ëª¨ë“  í•­ëª©ì˜ í˜„ìž¬ìˆ˜ëŸ‰ì„ 0ìœ¼ë¡œ ì´ˆê¸°í™”í• ê¹Œìš”?')) {
+    items.forEach(i => i.current = 0);
+    saveData();
+    render();
+    document.getElementById('output').value = '';
+  }
+};
+
+// JSON ë‚´ë³´ë‚´ê¸°
+document.getElementById('exportBtn').onclick = () => {
+  const blob = new Blob([JSON.stringify(items, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'order_items.json';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+  alert('âœ… JSON íŒŒì¼ì´ ë‹¤ìš´ë¡œë“œë˜ì—ˆìŠµë‹ˆë‹¤.');
+};
+
+// JSON ê°€ì ¸ì˜¤ê¸°
+document.getElementById('importBtn').onclick = () => {
+  document.getElementById('importFile').click();
+};
+
+document.getElementById('importFile').addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  
+  try {
+    const text = await file.text();
+    const parsed = JSON.parse(text);
+    
+    if (!Array.isArray(parsed)) {
+      throw new Error('ë°°ì—´ í˜•ì‹ì´ ì•„ë‹™ë‹ˆë‹¤.');
+    }
+    
+    items = parsed.map(item => ({
+      id: item.id || crypto.randomUUID(),
+      kor: item.kor || '',
+      eng: item.eng || '',
+      unit: item.unit || 'kg',
+      target: Number(item.target) || 0,
+      min: Number(item.min) || 1,
+      current: Number(item.current) || 0,
+      note: item.note || ''
+    }));
+    
+    editingItems.clear();
+    saveData();
+    render();
+    alert('âœ… ë¶ˆëŸ¬ì˜¤ê¸° ì™„ë£Œ!');
+  } catch (err) {
+    alert('âŒ ê°€ì ¸ì˜¤ê¸° ì‹¤íŒ¨: ì˜¬ë°”ë¥¸ JSON íŒŒì¼ì´ ì•„ë‹™ë‹ˆë‹¤.');
+  } finally {
+    e.target.value = '';
+  }
+});
+
+// ì´ˆê¸°í™”
+render();
+</script>
+</body>
+</html>
